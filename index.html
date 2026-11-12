@@ -37,7 +37,7 @@ input::placeholder{color:#5a4f40}
   <main id="top">
 
     <!-- 2. Hero -->
-    <section aria-labelledby="hero-title" style="background-color: #ece3cf; background-image: radial-gradient(rgba(23, 19, 14, 0.06) 1.2px, transparent 1.6px); background-size: 9px 9px; border-bottom: 2px solid #17130e;">
+    <section aria-labelledby="hero-title" style="background-color: #ece3cf; border-bottom: 2px solid #17130e;">
       <div style="max-width: 1200px; margin: 0 auto; padding: clamp(40px, 6vw, 80px) clamp(20px, 5vw, 56px) clamp(72px, 9vw, 120px); display: flex; flex-direction: column; gap: clamp(28px, 4vw, 44px);">
 
         <div style="display: flex; border-bottom: 2px solid #17130e;">
@@ -450,6 +450,23 @@ document.querySelectorAll('form').forEach(function (form) {
     note.textContent = 'Signups are not open yet. Check back soon.';
   });
 });
+</script>
+<script src="step-sequencer.js"></script>
+<script>
+// Animated hero background (ArtGen effect). Skipped for visitors who prefer reduced motion.
+(function(){
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var hero=document.querySelector('section[aria-labelledby="hero-title"]');
+  if(!hero)return;
+  if(!window.StepSequencer)return;
+  // Step Sequencer recoloured for the paper palette: ink squares, one red-orange, ink playhead.
+  var fx=JSON.parse(JSON.stringify(StepSequencer.effect));
+  fx.appearance.colors=fx.appearance.colors.map(function(c){return c.toLowerCase()==='#f5a524'?'#e8472a':'#17130e';});
+  fx.appearance.opacity=[0.22,0.22];
+  fx.layers[0].appearance.colors=['#17130e'];
+  fx.layers[0].appearance.blend='multiply';
+  ArtGenEffect.mount(hero,fx,{background:'transparent'});
+})();
 </script>
 </body>
 </html>
